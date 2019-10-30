@@ -25,7 +25,7 @@
 
 }
 
-.number {
+.boxForNumber {
     display: flex;
     position: absolute;
     width: 100px;
@@ -33,6 +33,6 @@
     align-items: center;
     justify-content: center;
 }
-.number span {
+.boxForNumber span {
     font-size: 200px;
 }
