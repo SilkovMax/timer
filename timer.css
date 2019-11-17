@@ -5,6 +5,7 @@
     font-size: 20px;
 }
 
+
 .container {
     display: flex;
     width: 100vw;
@@ -21,7 +22,7 @@
     width: 100px;
     height: 200px;
     border: 2px solid black;
-    overflow: hidden;
+    /* overflow: hidden; */
     margin: 20px;
 
 }
