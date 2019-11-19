@@ -105,9 +105,13 @@ function moveNumber() {
                 D[10] =9;
                 D[11]=0;
                 D[9] ++;
+                // if (D[8]=5 && D[9]=1) D[8]=0;
+                // if (D[8]=5) {
+                //     if (D[9]=1)
+                //     D[8]=0; {
                 if (D[9]>1) {
                     if (D[9]<6) {
-                        D[8]<6 ? D[8] ++ : D[8]=0;
+                        D[8]<5 ? D[8] ++ : D[8]=0;
                     } else {
                         D[8]=5;
                         D[9]=0;
@@ -135,6 +139,10 @@ function moveNumber() {
                     }
 
                 }
+                else {
+                    D[8] =0;
+                }
+            // }
                 setNumbers(D[8], D[9], numbers[8], numbers[9]);
                 containers[8].style.top = "0px";
                 containers[9].style.top = h + 'px';
