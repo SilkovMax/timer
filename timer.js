@@ -56,7 +56,7 @@ document.addEventListener("DOMContentLoaded", createElements);
 
 function moveNumber() {
     let coefSpeed = 0.05;
-    let speedMsInteval = 30;
+    let speedMsInteval = 1;
     let curPos = [0,0,0,0,0,0];
 
 
@@ -72,7 +72,7 @@ function moveNumber() {
             curPos[4] -= coefSpeed * h;
             containers[8].style.top = curPos[4] + 'px';
             containers[9].style.top = curPos[4] + h + 'px';
-            if (D[8] == 6) {
+            if (D[8] == 5) {
                 curPos[3] -= coefSpeed * h;
                 containers[6].style.top = curPos[3] + 'px';
                 containers[7].style.top = curPos[3] + h + 'px';
@@ -80,14 +80,18 @@ function moveNumber() {
                     curPos[2] -= coefSpeed * h;
                     containers[4].style.top = curPos[2] + 'px';
                     containers[5].style.top = curPos[2] + h + 'px';
-                    if (D[4] == 3) {
+                    if (D[4] == 5) {
                         curPos[1] -= coefSpeed * h;
                         containers[2].style.top = curPos[1] +  'px';
                         containers[3].style.top = curPos[1] + h + 'px';
-                        if (D[2] == 2) {
+                        if (D[2] == 9) {
                             curPos[0] -= coefSpeed * h;
                             containers[0].style.top = curPos[0] +  'px';
                             containers[1].style.top = curPos[0] + h + 'px';
+                        }
+                        else if (D[0] ==2 && D[2] == 3) {
+                            clearTimeout(timer);
+
                         }
                     }
                 }
@@ -105,10 +109,6 @@ function moveNumber() {
                 D[10] =9;
                 D[11]=0;
                 D[9] ++;
-                // if (D[8]=5 && D[9]=1) D[8]=0;
-                // if (D[8]=5) {
-                //     if (D[9]=1)
-                //     D[8]=0; {
                 if (D[9]>1) {
                     if (D[9]<6) {
                         D[8]<5 ? D[8] ++ : D[8]=0;
@@ -117,32 +117,59 @@ function moveNumber() {
                         D[9]=0;
                         D[7] ++;
                         if (D[7]>1) {
-                            if (D[7]<9) {
+                            if (D[7]<10) {
                                 D[6]<9 ? D[6] ++ : D[6]=0;
                             } else {
-                                D[6] =9;
+                                D[6]=9;
                                 D[7]=0;
                                 D[5] ++;
-                                if (D[5]>1)
-                                    D[4] ++;
+                                if (D[5]>1) {
+                                    if (D[5]<6) {
+                                        D[4]<5 ? D[4] ++ : D[4]=0;
+                                    } else {
+                                        D[4]=5;
+                                        D[5]=0;
+                                        D[3] ++;
+                                        if (D[3]>1) {
+                                            if (D[3]<10) {
+                                                D[2]<9 ? D[2] ++ : D[2]=0;
+                                            } else {
+                                                D[2]=9;
+                                                D[3]=0;
+                                                D[3] ++;
+
+                                            }
+                                        }
+                                        else {
+                                            D[2] =0;
+                                        }
+                                        setNumbers(D[2], D[3], numbers[2], numbers[3]);
+                                        containers[2].style.top = "0px";
+                                        containers[3].style.top = h + 'px';
+                                        curPos[1] = 0;
+                                    }
+                                }
+                                else {
+                                    D[4] =0;
+                                }
                                 setNumbers(D[4], D[5], numbers[4], numbers[5]);
                                 containers[4].style.top = "0px";
                                 containers[5].style.top = h + 'px';
                                 curPos[2] = 0;
                             }
-
+                        }
+                        else {
+                            D[6] =0;
                         }
                         setNumbers(D[6], D[7], numbers[6], numbers[7]);
                         containers[6].style.top = "0px";
                         containers[7].style.top = h + 'px';
                         curPos[3] = 0;
                     }
-
                 }
                 else {
                     D[8] =0;
                 }
-            // }
                 setNumbers(D[8], D[9], numbers[8], numbers[9]);
                 containers[8].style.top = "0px";
                 containers[9].style.top = h + 'px';
