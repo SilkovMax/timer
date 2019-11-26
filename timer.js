@@ -2,9 +2,8 @@
 let numbers = [];
 let fields = [];
 let containers = [];
-
-
-
+let D = [0,0,0,0,0,0,0,0,0,0,0,1];
+let play = true;
 
 
 let createElements = function() {
@@ -31,7 +30,6 @@ let createElements = function() {
 
             fields[field].appendChild(containers[i]);
             fields[field].appendChild(containers[i+1]);
-            console.log(field);
 
             containers[i].appendChild(numbers[i]);
             containers[i+1].appendChild(numbers[i+1]);
@@ -39,6 +37,18 @@ let createElements = function() {
             containers[i+1].style.top = 200 + "px";
             i+=2;
         }
+        // numbers[0].textContent="2";
+        // numbers[1].textContent="3";
+        // numbers[2].textContent="3";
+        // numbers[3].textContent="4";
+        // numbers[4].textContent="5";
+        // numbers[5].textContent="0";
+        // numbers[6].textContent="8";
+        // numbers[7].textContent="9";
+        // numbers[8].textContent="5";
+        // numbers[9].textContent="0";
+        // numbers[10].textContent="9";
+        // numbers[11].textContent="0";
         moveNumber();
     } catch(e) {
         let x = e.message;
@@ -53,14 +63,20 @@ let setNumbers = function(a,b,numCur,numNext) {
 
 document.addEventListener("DOMContentLoaded", createElements);
 
+window.onkeydown = function spaceNumbers() {
+    if(event.keyCode==32)
+		if (!play) {
+			moveNumber();
+			play = true;
+		} else
+			play = false;
+}
+
 
 function moveNumber() {
     let coefSpeed = 0.05;
-    let speedMsInteval = 1;
+    let speedMsInteval = 50;
     let curPos = [0,0,0,0,0,0];
-
-
-    let D = [0,0,0,0,0,0,0,0,0,0,0,1];
 
     let h = containers[0].offsetHeight
 
@@ -89,16 +105,12 @@ function moveNumber() {
                             containers[0].style.top = curPos[0] +  'px';
                             containers[1].style.top = curPos[0] + h + 'px';
                         }
-                        else if (D[0] ==2 && D[2] == 3) {
-                            clearTimeout(timer);
-
-                        }
                     }
                 }
             }
         }
 
-
+        let flag = true;
         if (curPos[5] > -h) {
             timer = setTimeout(positionNumber,speedMsInteval);//step up
         } else {
@@ -123,25 +135,41 @@ function moveNumber() {
                                 D[6]=9;
                                 D[7]=0;
                                 D[5] ++;
+                                console.log("D5 =" + D[5]);
                                 if (D[5]>1) {
                                     if (D[5]<6) {
                                         D[4]<5 ? D[4] ++ : D[4]=0;
+                                        console.log("D3 =" + D[3] +" D0 ="  + D[0]);
                                     } else {
                                         D[4]=5;
                                         D[5]=0;
                                         D[3] ++;
-                                        if (D[3]>1) {
+                                        console.log("D3 =" + D[3] +" D0 ="  + D[0]);
+                                        if (D[3]>1 && D[0]<2) {
                                             if (D[3]<10) {
                                                 D[2]<9 ? D[2] ++ : D[2]=0;
                                             } else {
                                                 D[2]=9;
                                                 D[3]=0;
-                                                D[3] ++;
-
+                                                D[1] ++;
                                             }
                                         }
                                         else {
-                                            D[2] =0;
+                                            if (D[3] == 1) {
+                                                D[2] = 0;
+                                                console.log(D[2]);
+                                            }
+                                            else {
+                                                if (D[3]<5) {
+                                                    D[2]<4 ? D[2] ++ : D[2]=0;
+                                                    console.log(D[2]);
+                                                } else {
+                                                    D[2]=3;
+                                                    D[3]=0;
+                                                    D[1] ++;
+                                                    console.log(D[1]);
+                                                }
+                                            }
                                         }
                                         setNumbers(D[2], D[3], numbers[2], numbers[3]);
                                         containers[2].style.top = "0px";
@@ -150,7 +178,13 @@ function moveNumber() {
                                     }
                                 }
                                 else {
-                                    D[4] =0;
+                                    if (D[0] == 2 && D[2] == 3) {
+                                        D = [0,0,0,0,0,0,0,0,0,0,0,1];
+                                        for (let i=0;i<12;i+=2)
+                                            setNumbers(D[i],D[i+1],numbers[i],numbers[i+1]);
+                                        flag = false;
+                                    }
+                                    else D[4] =0;
                                 }
                                 setNumbers(D[4], D[5], numbers[4], numbers[5]);
                                 containers[4].style.top = "0px";
@@ -179,7 +213,11 @@ function moveNumber() {
             containers[10].style.top = "0px";
             containers[11].style.top = h + 'px';
             curPos[5] = 0;
-            timer = setTimeout(positionNumber,speedMsInteval);
+            document.body.style = "background-color: #"+D[1]+D[3]+D[5]+D[7]+D[9]+D[11] + ";";
+            console.log("#" +D[1]+D[3]+D[5]+D[7]+D[9]+D[11]);
+
+            if (flag && play)
+                timer = setTimeout(positionNumber,speedMsInteval);
         }
 
     }, speedMsInteval);
